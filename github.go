@@ -33,7 +33,7 @@ func main() {
   if err != nil { fmt.Fprintln(os.Stderr, err); os.Exit(1) }
 
   // 4. Upload the release asset file to the release
-  opt := &github.UploadOptions{Name: repo}
+  opt := &github.UploadOptions{Name: filename}
   releaseasset, _, err := client.Repositories.UploadReleaseAsset(owner, repo, *release.ID, opt, file)
   if err != nil { fmt.Fprintln(os.Stderr, err); os.Exit(1) }
   fmt.Printf("%s: Asset %s. Version: %s\n", *releaseasset.Name, *releaseasset.State, *name)
