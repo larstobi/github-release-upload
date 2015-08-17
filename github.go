@@ -1,4 +1,4 @@
-package main
+package main // import "github.com/larstobi/github-release-upload"
 
 import (
   "fmt"
