@@ -14,11 +14,11 @@ func main() {
   filename    := os.Getenv("GITHUB_RELEASE_ASSET")
   releasename := os.Getenv("GITHUB_RELEASE_NAME")
 
-  // 1. Open the release asset file
+  // Open the release asset file
   file, err := os.Open(filename)
   if err != nil { fmt.Fprintln(os.Stderr, err); os.Exit(1) }
 
-  // 2. Configure authentication
+  // Configure authentication
   ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
   tc := oauth2.NewClient(oauth2.NoContext, ts)
   client := github.NewClient(tc)
@@ -32,7 +32,7 @@ func main() {
   release, _, err := client.Repositories.CreateRelease(owner, repo, request)
   if err != nil { fmt.Fprintln(os.Stderr, err); os.Exit(1) }
 
-  // 4. Upload the release asset file to the release
+  // Upload the release asset file to the release
   opt := &github.UploadOptions{Name: filename}
   releaseasset, _, err := client.Repositories.UploadReleaseAsset(owner, repo, *release.ID, opt, file)
   if err != nil { fmt.Fprintln(os.Stderr, err); os.Exit(1) }
