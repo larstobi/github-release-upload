@@ -23,7 +23,22 @@ func main() {
   tc := oauth2.NewClient(oauth2.NoContext, ts)
   client := github.NewClient(tc)
 
-  // 3. Create the release
+  // Make a commit to Releases.md
+  message := releasename
+  content := []byte(releasename)
+  repositoryContentsOptions := &github.RepositoryContentFileOptions{
+    Message:   &message,
+    Content:   content,
+    Committer: &github.CommitAuthor{Name: github.String("bonnyrigg"),
+                Email: github.String("support@digipost.no")},
+  }
+  path := "releases/"
+  path += releasename
+  _, _, err = client.Repositories.CreateFile(owner, repo,
+    path, repositoryContentsOptions)
+  if err != nil { fmt.Fprintln(os.Stderr, err); os.Exit(1) }
+
+  // Create the release
   name := github.String(releasename)
   request := &github.RepositoryRelease{
     Name:    name,
